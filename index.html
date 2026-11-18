@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة زفاف أحمد وآلاء | ٢٦ نوفمبر ٢٠٢٦</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #FAF6F0;
+            --bg-card: #FFFFFF;
+            --gold-primary: #C5A059;
+            --gold-dark: #9E7B36;
+            --gold-light: #E8D5B5;
+            --text-dark: #2C2520;
+            --text-muted: #6E6259;
+            --shadow-soft: 0 15px 35px rgba(158, 123, 54, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 20% 20%, rgba(197, 160, 89, 0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 80%, rgba(197, 160, 89, 0.08) 0%, transparent 50%);
+            min-height: 100vh;
+        }
+
+        /* Welcome Overlay (Envelope Screen) */
+        #welcome-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #2C2520 0%, #1A1512 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            transition: opacity 0.9s ease, visibility 0.9s ease;
+        }
+
+        #welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .envelope-card {
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            padding: 45px 30px;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .envelope-card::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.25);
+            border-radius: 14px;
+            pointer-events: none;
+        }
+
+        .bismillah-top {
+            font-family: 'Amiri', serif;
+            color: var(--gold-light);
+            font-size: 1.3rem;
+            margin-bottom: 18px;
+        }
+
+        .overlay-names {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 3.2rem;
+            color: var(--gold-primary);
+            margin: 10px 0 20px;
+            line-height: 1.3;
+        }
+
+        .overlay-subtitle {
+            color: #D8CFC6;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .open-btn {
+            background: linear-gradient(45deg, var(--gold-dark), var(--gold-primary));
+            color: #FFF;
+            border: none;
+            padding: 14px 38px;
+            font-size: 1.1rem;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(197, 160, 89, 0.6);
+        }
+
+        /* Floating Music Player */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 900;
+            background: rgba(44, 37, 32, 0.92);
+            color: #FFF;
+            padding: 10px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: transform 0.2s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.03);
+        }
+
+        .music-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .music-icon.playing {
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 35px 18px 90px;
+        }
+
+        /* Hero Section */
+        .hero-card {
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 45px 25px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(197, 160, 89, 0.25);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        .verse {
+            font-family: 'Amiri', serif;
+            font-size: 1.25rem;
+            color: var(--gold-dark);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .invite-intro {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .couple-names {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 3.8rem;
+            color: var(--text-dark);
+            margin: 15px 0;
+            line-height: 1.25;
+        }
+
+        .couple-names span.amp {
+            color: var(--gold-primary);
+            font-size: 2.8rem;
+            display: inline-block;
+            margin: 0 8px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 22px auto;
+            width: 70%;
+        }
+
+        .divider-line {
+            height: 1px;
+            flex: 1;
+            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
+        }
+
+        .divider-diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold-primary);
+            transform: rotate(45deg);
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: var(--bg-cream);
+            border: 1px solid var(--gold-light);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            font-size: 1.15rem;
+            margin-top: 8px;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 1.85rem;
+            color: var(--gold-dark);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* Countdown Grid */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            direction: ltr;
+        }
+
+        .time-box {
+            background: var(--bg-cream);
+            border: 1px solid var(--gold-light);
+            border-radius: 16px;
+            padding: 16px 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-4px);
+        }
+
+        .time-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            display: block;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* Event Details */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .detail-item {
+            background: var(--bg-cream);
+            padding: 20px 15px;
+            border-radius: 18px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .detail-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--gold-dark), var(--gold-primary));
+            color: #FFF;
+            text-decoration: none;
+            padding: 13px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.92;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gold-dark);
+            border: 1.5px solid var(--gold-primary);
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.25s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(197, 160, 89, 0.1);
+        }
+
+        /* Guestbook Form */
+        .wish-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            text-align: right;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--gold-light);
+            background: var(--bg-cream);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--gold-primary);
+        }
+
+        .wishes-list {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .wish-item {
+            background: var(--bg-cream);
+            padding: 15px 18px;
+            border-radius: 16px;
+            border-right: 4px solid var(--gold-primary);
+        }
+
+        .wish-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .wish-author {
+            font-weight: 700;
+            color: var(--gold-dark);
+            font-size: 0.95rem;
+        }
+
+        .wish-status {
+            font-size: 0.78rem;
+            background: rgba(197, 160, 89, 0.18);
+            color: var(--gold-dark);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .wish-text {
+            font-size: 0.92rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 520px) {
+            .couple-names { font-size: 3rem; }
+            .overlay-names { font-size: 2.6rem; }
+            .details-grid { grid-template-columns: 1fr; }
+            .countdown-grid { gap: 8px; }
+            .time-number { font-size: 1.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة الترحيب وفتح الدعوة -->
+    <div id="welcome-overlay">
+        <div class="envelope-card">
+            <div class="bismillah-top">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+            <p class="overlay-subtitle">يسعدنا ويشرفنا دعوتكم لمشاركتنا فرحتنا</p>
+            <h1 class="overlay-names">أحمد &amp; آلاء</h1>
+            <p class="overlay-subtitle">الخميس ٢٦ نوفمبر ٢٠٢٦</p>
+            <button class="open-btn" onclick="openInvitation()">
+                <span>💌</span> افتح الدعوة
+            </button>
+        </div>
+    </div>
+
+    <!-- مشغل الموسيقى العائم -->
+    <div class="music-control" onclick="toggleMusic()" title="تشغيل / إيقاف الموسيقى">
+        <div class="music-icon" id="music-icon">🎵</div>
+        <div>
+            <div style="font-weight: 700; font-size: 0.8rem;">For the Rest of My Life</div>
+            <div style="font-size: 0.72rem; color: #E8D5B5;" id="music-status">Maher Zain • اضغط للتشغيل</div>
+        </div>
+    </div>
+
+    <!-- عنصر الصوت: يمكنك استبدال الرابط برابط ملف MP3 مباشر للأغنية أو وضع ملف song.mp3 بجانب index.html -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <!-- البطاقة الرئيسية -->
+        <section class="hero-card">
+            <p class="verse">﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾</p>
+            <p class="invite-intro">تتشرف عائلتا العروسين بدعوة سيادتكم لحضور حفل زفاف</p>
+            
+            <h1 class="couple-names">
+                أحمد <span class="amp">&amp;</span> آلاء
+            </h1>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-diamond"></div>
+                <div class="divider-line"></div>
+            </div>
+
+            <p class="invite-intro">وذلك بمشيئة الله تعالى يوم</p>
+            <div class="date-badge">الخميس ٢٦ / ١١ / ٢٠٢٦ • الساعة ٤:٠٠ مساءً</div>
+        </section>
+
+        <!-- العداد التنازلي -->
+        <section class="section-card">
+            <h2 class="section-title">العد التنازلي للفرحة</h2>
+            <p class="section-subtitle">الوقت المتبقي على أجمل يوم في حياتنا</p>
+            
+            <div class="countdown-grid">
+                <div class="time-box">
+                    <span class="time-number" id="days">00</span>
+                    <span class="time-label">يوم</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-number" id="hours">00</span>
+                    <span class="time-label">ساعة</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-number" id="minutes">00</span>
+                    <span class="time-label">دقيقة</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-number" id="seconds">00</span>
+                    <span class="time-label">ثانية</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- تفاصيل المكان والموعد -->
+        <section class="section-card">
+            <h2 class="section-title">الموعد والمكان</h2>
+            <p class="section-subtitle">ننتظر تشريفكم لإتمام فرحتنا</p>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-icon">🗓️</span>
+                    <div class="detail-label">التاريخ والوقت</div>
+                    <div class="detail-value">الخميس ٢٦ نوفمبر ٢٠٢٦<br>الساعة ٤:٠٠ عصراً</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-icon">📍</span>
+                    <div class="detail-label">القاعة</div>
+                    <div class="detail-value">NileStar Hall<br>نايل ستار هول</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="https://maps.app.goo.gl/ZkER8DHXG1mSQKFe8" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                    <span>🗺️</span> فتح الموقع على الخريطة
+                </a>
+                <button class="btn-outline" onclick="copyLocation()">
+                    <span id="copy-text">📋 نسخ رابط اللوكيشن</span>
+                </button>
+                <button class="btn-outline" onclick="addToCalendar()">
+                    <span>📅</span> حفظ في التقويم
+                </button>
+            </div>
+        </section>
+
+        <!-- دفتر التهاني وتأكيد الحضور -->
+        <section class="section-card">
+            <h2 class="section-title">دفتر التهاني وتأكيد الحضور</h2>
+            <p class="section-subtitle">اترك لنا كلمة للذكرى وأكد حضورك</p>
+
+            <form class="wish-form" onsubmit="addWish(event)">
+                <input type="text" id="guest-name" class="form-input" placeholder="الاسم الكريم" required>
+                <select id="guest-attendance" class="form-select">
+                    <option value="سأحضر بإذن الله ✨">سأحضر بإذن الله ✨</option>
+                    <option value="أعتذر لظروف خاصة 💐">أعتذر لظروف خاصة 💐</option>
+                </select>
+                <textarea id="guest-message" class="form-textarea" rows="3" placeholder="اكتب تهنئتك لأحمد وآلاء..." required></textarea>
+                <button type="submit" class="btn-primary" style="justify-content: center;">
+                    <span>💌</span> إرسال التهنئة
+                </button>
+            </form>
+
+            <div class="wishes-list" id="wishes-list">
+                <div class="wish-item">
+                    <div class="wish-header">
+                        <span class="wish-author">أهلاً بكم جميعاً</span>
+                        <span class="wish-status">أحمد &amp; آلاء</span>
+                    </div>
+                    <p class="wish-text">وجودكم معنا هو أجمل هدية في يوم زفافنا.. نتشرف بحضوركم ❤️</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            بكل الحب • أحمد وآلاء • ٢٦ / ١١ / ٢٠٢٦
+        </footer>
+    </div>
+
+    <script>
+        // ضبط موعد الفرح: ٢٦ نوفمبر ٢٠٢٦ الساعة ٤:٠٠ مساءً بتوقيت القاهرة (UTC+2)
+        const weddingDate = new Date("2026-11-26T16:00:00+02:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance <= 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // التحكم في الموسيقى وشاشة البداية
+        const audio = document.getElementById("bg-music");
+        const musicIcon = document.getElementById("music-icon");
+        const musicStatus = document.getElementById("music-status");
+        let isPlaying = false;
+
+        // نغمة بيانو هادئة احتياطية في حال عدم إرفاق ملف song.mp3
+        let audioCtx = null;
+        let fallbackInterval = null;
+
+        function startFallbackMelody() {
+            if (fallbackInterval) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [261.63, 329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 329.63];
+                let step = 0;
+                fallbackInterval = setInterval(() => {
+                    if (!isPlaying) return;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = notes[step % notes.length];
+                    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.4);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 1.4);
+                    step++;
+                }, 900);
+            } catch (e) {}
+        }
+
+        function stopFallbackMelody() {
+            if (fallbackInterval) {
+                clearInterval(fallbackInterval);
+                fallbackInterval = null;
+            }
+        }
+
+        function playMusic() {
+            audio.play().then(() => {
+                isPlaying = true;
+                musicIcon.classList.add("playing");
+                musicStatus.innerText = "Maher Zain • قيد التشغيل";
+            }).catch(() => {
+                isPlaying = true;
+                musicIcon.classList.add("playing");
+                musicStatus.innerText = "Maher Zain • موسيقى هادئة";
+                startFallbackMelody();
+            });
+        }
+
+        function pauseMusic() {
+            audio.pause();
+            stopFallbackMelody();
+            isPlaying = false;
+            musicIcon.classList.remove("playing");
+            musicStatus.innerText = "Maher Zain • متوقف مؤقتاً";
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        }
+
+        function openInvitation() {
+            document.getElementById("welcome-overlay").classList.add("hidden");
+            playMusic();
+        }
+
+        // نسخ رابط اللوكيشن
+        function copyLocation() {
+            const url = "https://maps.app.goo.gl/ZkER8DHXG1mSQKFe8";
+            navigator.clipboard.writeText(url).then(() => {
+                const copyText = document.getElementById("copy-text");
+                copyText.innerText = "✅ تم نسخ الرابط!";
+                setTimeout(() => {
+                    copyText.innerText = "📋 نسخ رابط اللوكيشن";
+                }, 2500);
+            });
+        }
+
+        // إضافة الحدث للتقويم
+        function addToCalendar() {
+            const title = encodeURIComponent("حفل زفاف أحمد وآلاء");
+            const location = encodeURIComponent("NileStar Hall - https://maps.app.goo.gl/ZkER8DHXG1mSQKFe8");
+            const details = encodeURIComponent("يسعدنا تشريفكم في حفل زفاف أحمد وآلاء بقاعة NileStar Hall");
+            const dates = "20261126T140000Z/20261126T200000Z";
+            const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+            window.open(gCalUrl, "_blank");
+        }
+
+        // إضافة تهنئة في الصفحة
+        function addWish(e) {
+            e.preventDefault();
+            const name = document.getElementById("guest-name").value.trim();
+            const attendance = document.getElementById("guest-attendance").value;
+            const message = document.getElementById("guest-message").value.trim();
+
+            if (!name || !message) return;
+
+            const wishItem = document.createElement("div");
+            wishItem.className = "wish-item";
+            wishItem.innerHTML = `
+                <div class="wish-header">
+                    <span class="wish-author">${escapeHTML(name)}</span>
+                    <span class="wish-status">${escapeHTML(attendance)}</span>
+                </div>
+                <p class="wish-text">${escapeHTML(message)}</p>
+            `;
+
+            const list = document.getElementById("wishes-list");
+            list.insertBefore(wishItem, list.firstChild);
+
+            document.getElementById("guest-name").value = "";
+            document.getElementById("guest-message").value = "";
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag]));
+        }
+    </script>
+</body>
+</html>
